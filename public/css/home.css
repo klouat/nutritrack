@@ -1,0 +1,50 @@
+.scroller {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.scroller__inner {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: scroll 15s linear infinite;
+    padding: 1rem 0;
+}
+
+.scroller:hover .scroller__inner {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - 0.5rem));
+    }
+}
+
+.scroller__inner img {
+    max-height: 200px; 
+    object-fit: cover; 
+    transition: transform 0.3s ease;
+}
+
+.scroller__inner img:hover {
+    transform: scale(1.1); 
+}
+footer {
+    font-family: 'Inter', sans-serif;
+}
+
+.faq-section {
+    font-family: 'Poppins', sans-serif;
+}
+.testimoni-section {
+    font-family: 'Inter', sans-serif;
+}
+.yuk-section {
+    font-family: 'Section', sans-serif;
+}
+
