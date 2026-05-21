@@ -16,12 +16,15 @@ Route::get('/usda-proxy', [UsdaProxyController::class, 'proxyUsdaApi']);
 
 Route::middleware('auth.token')->group(function () {
     Route::post('asupan', [AsupanController::class, 'store']);
+    Route::put('asupan/{asupan}', [AsupanController::class, 'update']);
+    Route::delete('asupan/{asupan}', [AsupanController::class, 'destroy']);
     Route::post('laporan', [LaporanController::class, 'store']);
     Route::get('sehat', [PilihanSehatController::class, 'index']);
     Route::get('sehat/{kategori}', [PilihanSehatController::class, 'index']);
     Route::get('dashboard', [AsupanController::class, 'dashboard']);
     Route::get('dashboard/daily-totals', [AsupanController::class, 'getDailyTotals']);
     Route::get('profile', [ProfilController::class, 'getProfileData']);
+    Route::post('profile', [ProfilController::class, 'updateForPostman']);
     Route::put('profile', [ProfilController::class, 'updateForPostman']);
     Route::post('profile/password', [ProfilController::class, 'updatePassword']);
     Route::post('konsultasi', [KonsultasiController::class, 'sendForPostman']);

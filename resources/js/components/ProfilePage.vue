@@ -6,6 +6,25 @@
         <h2 class="text-xl font-semibold mb-2">Info Personal</h2>
         <p class="text-sm text-gray-500 mb-6">Kamu bisa perbarui data pribadi kamu di sini</p>
 
+        <div class="mb-6 flex items-center gap-4">
+          <img
+            v-if="user.foto_profil_url"
+            :src="user.foto_profil_url"
+            alt="Foto Profil"
+            class="h-20 w-20 rounded-full object-cover"
+          />
+          <div
+            v-else
+            class="flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700"
+          >
+            Foto
+          </div>
+          <div class="flex-1">
+            <label class="mb-2 block font-semibold text-[#003266]">Upload Foto Profil</label>
+            <input type="file" accept="image/*" @change="onPhotoChange" />
+          </div>
+        </div>
+
         <form @submit.prevent="updateProfile" class="space-y-4">
           <div
             v-for="(field, key) in fields"
@@ -81,7 +100,9 @@ export default {
       umur: '',
       pekerjaan: '',
       riwayat_kesehatan: '',
-      alergi: ''
+      alergi: '',
+      foto_profil: null,
+      foto_profil_url: null
     });
 
     const fields = {
@@ -101,7 +122,12 @@ export default {
     onMounted(async () => {
       try {
         const response = await axios.get('/api/profile');
-        user.value = response.data;
+        user.value = {
+          ...user.value,
+          ...response.data,
+          foto_profil: null,
+          foto_profil_url: response.data.foto_profil
+        };
         passwordUpdateRoute.value = response.data.routes?.password_update || '/profil/password';
         deleteAccountRoute.value = response.data.routes?.delete_account || '/profil/hapus-akun';
       } catch (error) {
@@ -112,7 +138,27 @@ export default {
 
     const updateProfile = async () => {
       try {
-        await axios.put('/api/profile', user.value);
+        const formData = new FormData();
+        formData.append('_method', 'PUT');
+        formData.append('name', user.value.name || '');
+        formData.append('email', user.value.email || '');
+        formData.append('nomor_telepon', user.value.nomor_telepon || '');
+        formData.append('umur', user.value.umur || '');
+        formData.append('pekerjaan', user.value.pekerjaan || '');
+        formData.append('riwayat_kesehatan', user.value.riwayat_kesehatan || '');
+        formData.append('alergi', user.value.alergi || '');
+
+        if (user.value.foto_profil) {
+          formData.append('foto_profil', user.value.foto_profil);
+        }
+
+        const response = await axios.post('/api/profile', formData);
+        user.value = {
+          ...user.value,
+          ...response.data.user,
+          foto_profil: null,
+          foto_profil_url: response.data.user.foto_profil ? `/${response.data.user.foto_profil}` : user.value.foto_profil_url
+        };
         toast.success('Profil berhasil diperbarui');
       } catch (error) {
         if (error.response?.data?.errors) {
@@ -121,6 +167,15 @@ export default {
           toast.error('Gagal memperbarui profil');
         }
         console.error(error);
+      }
+    };
+
+    const onPhotoChange = (event) => {
+      const [file] = event.target.files || [];
+      user.value.foto_profil = file || null;
+
+      if (file) {
+        user.value.foto_profil_url = URL.createObjectURL(file);
       }
     };
 
@@ -148,6 +203,7 @@ export default {
       fields,
       passwordUpdateRoute,
       updateProfile,
+      onPhotoChange,
       goBack,
       confirmDeletion
     };

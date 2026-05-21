@@ -30,7 +30,8 @@ class User extends Authenticatable
         'pekerjaan',
         'riwayat_kesehatan',
         'alergi',
-        'google_id',  
+        'google_id',
+        'foto_profil',
     ];
 
     /**

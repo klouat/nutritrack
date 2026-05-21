@@ -26,6 +26,15 @@
                     </p>
                 </div>
             </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-lg font-semibold mb-4">Grafik Konsumsi Mingguan</h2>
+                <div ref="mingguanChartRef" class="apex-chart"></div>
+                <div class="text-center mt-4">
+                    <p class="text-gray-600 text-sm">
+                        Total gula 7 hari terakhir
+                    </p>
+                </div>
+            </div>
         </div>
 
         <div class="mt-8">
@@ -55,7 +64,11 @@
                             </span>
                         </div>
 
-                        <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                            <div class="rounded-md bg-white px-3 py-2">
+                                <p class="text-xs uppercase tracking-wide text-gray-400">Porsi</p>
+                                <p class="text-sm font-semibold text-gray-800">{{ formatNumber(item.porsi || 1) }}</p>
+                            </div>
                             <div class="rounded-md bg-white px-3 py-2">
                                 <p class="text-xs uppercase tracking-wide text-gray-400">Kadar Gula</p>
                                 <p class="text-sm font-semibold text-gray-800">{{ formatNumber(item.kadar_gula) }} gram</p>
@@ -64,6 +77,15 @@
                                 <p class="text-xs uppercase tracking-wide text-gray-400">Kadar Kalori</p>
                                 <p class="text-sm font-semibold text-gray-800">{{ formatNumber(item.kadar_kalori) }} kalori</p>
                             </div>
+                        </div>
+
+                        <div class="mt-3 flex gap-2">
+                            <button @click="editAsupan(item)" class="rounded-lg border border-blue-300 px-3 py-2 text-sm text-blue-600 hover:bg-blue-50">
+                                Edit
+                            </button>
+                            <button @click="deleteAsupan(item)" class="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-600 hover:bg-red-50">
+                                Hapus
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -111,8 +133,10 @@ export default {
             },
             todayAsupan: window.todayAsupan || [],
             routeCreate: window.routeCreate || '/asupan',
+            weeklyAsupan: [],
             gulaChart: null,
             kaloriChart: null,
+            mingguanChart: null,
             refreshIntervalId: null
         };
     },
@@ -147,6 +171,9 @@ export default {
         if (this.kaloriChart) {
             this.kaloriChart.destroy();
         }
+        if (this.mingguanChart) {
+            this.mingguanChart.destroy();
+        }
     },
     methods: {
         startAutoRefresh() {
@@ -162,9 +189,38 @@ export default {
                     ...response.data.summary,
                 };
                 this.todayAsupan = response.data.today_asupan || [];
+                this.weeklyAsupan = response.data.weekly_asupan || [];
                 this.updateCharts();
             } catch (error) {
                 console.error('Failed to refresh dashboard data:', error);
+            }
+        },
+        async editAsupan(item) {
+            const nextPorsi = window.prompt('Masukkan porsi baru:', item.porsi || 1);
+
+            if (nextPorsi === null) {
+                return;
+            }
+
+            try {
+                await window.axios.put(`/api/asupan/${item.id}`, {
+                    porsi: nextPorsi,
+                });
+                await this.fetchDashboardData();
+            } catch (error) {
+                console.error('Failed to update asupan:', error);
+            }
+        },
+        async deleteAsupan(item) {
+            if (!window.confirm(`Hapus catatan ${item.nama}?`)) {
+                return;
+            }
+
+            try {
+                await window.axios.delete(`/api/asupan/${item.id}`);
+                await this.fetchDashboardData();
+            } catch (error) {
+                console.error('Failed to delete asupan:', error);
             }
         },
         formatNumber(value) {
@@ -229,6 +285,28 @@ export default {
             
             this.kaloriChart = new ApexCharts(this.$refs.kaloriChartRef, chartOptions(this.dailyData.kalori_percentage));
             this.kaloriChart.render();
+
+            this.mingguanChart = new ApexCharts(this.$refs.mingguanChartRef, {
+                chart: { type: 'bar', height: 250, toolbar: { show: false } },
+                series: [{
+                    name: 'Total Gula',
+                    data: this.weeklyAsupan.map((item) => item.total_gula || 0),
+                }],
+                xaxis: {
+                    categories: this.weeklyAsupan.map((item) => item.label || item.tanggal),
+                },
+                colors: ['#007AFF'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 6,
+                        columnWidth: '55%',
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+            });
+            this.mingguanChart.render();
         },
         updateCharts() {
             if (this.gulaChart) {
@@ -237,6 +315,17 @@ export default {
 
             if (this.kaloriChart) {
                 this.kaloriChart.updateSeries([this.dailyData.kalori_percentage]);
+            }
+            if (this.mingguanChart) {
+                this.mingguanChart.updateOptions({
+                    xaxis: {
+                        categories: this.weeklyAsupan.map((item) => item.label || item.tanggal),
+                    },
+                });
+                this.mingguanChart.updateSeries([{
+                    name: 'Total Gula',
+                    data: this.weeklyAsupan.map((item) => item.total_gula || 0),
+                }]);
             }
         }
     }

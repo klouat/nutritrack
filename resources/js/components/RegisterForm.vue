@@ -128,10 +128,10 @@ export default {
                 "There are some errors in your form. Please check and try again."
               );
             } else {
-              window.NutriAuth.setToken(data.token);
-              window.NutriAuth.applyAuthHeader();
               this.toast.success(data.message || "Registration successful!");
               setTimeout(() => {
+                window.NutriAuth.setToken(data.token);
+                window.NutriAuth.applyAuthHeader();
                 window.location.href = "/dashboard";
               }, 1500);
             }

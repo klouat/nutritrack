@@ -12,6 +12,17 @@
 
         <form @submit.prevent="submitAsupan" class="space-y-4 w-full">
           <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-2 sm:gap-4">
+            <label class="font-semibold text-[#003266] text-md">Porsi</label>
+            <input 
+              type="number"
+              min="0.01"
+              step="0.01"
+              v-model="asupan.porsi"
+              class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-2 sm:gap-4">
             <label class="font-semibold text-[#003266] text-md">Makanan / Minuman</label>
             <input 
               type="text" 
@@ -23,7 +34,9 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-2 sm:gap-4">
             <label class="font-semibold text-[#003266] text-md">Kadar Gula (gram)</label>
             <input 
-              type="text" 
+              type="number"
+              min="0"
+              step="0.01"
               v-model="asupan.kadar_gula"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
@@ -32,7 +45,9 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-2 sm:gap-4">
             <label class="font-semibold text-[#003266] text-md">Kadar Kalori (kcal)</label>
             <input 
-              type="text" 
+              type="number"
+              min="0"
+              step="0.01"
               v-model="asupan.kadar_kalori"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
@@ -136,6 +151,7 @@ export default {
     
     const asupan = reactive({
       nama: 'Teh Manis',
+      porsi: '1',
       kadar_gula: '15',
       kadar_kalori: '60',
       tanggal_konsumsi: new Date().toISOString().split('T')[0], 
@@ -149,6 +165,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('nama', asupan.nama);
+        formData.append('porsi', asupan.porsi);
         formData.append('kadar_gula', asupan.kadar_gula);
         formData.append('kadar_kalori', asupan.kadar_kalori);
         formData.append('tanggal_konsumsi', asupan.tanggal_konsumsi);
@@ -158,6 +175,7 @@ export default {
         await axios.post('/asupan', formData);
         toast.success('Asupan berhasil disimpan');
         asupan.nama = 'Teh Manis';
+        asupan.porsi = '1';
         asupan.kadar_gula = '15';
         asupan.kadar_kalori = '60';
         asupan.tanggal_konsumsi = new Date().toISOString().split('T')[0];

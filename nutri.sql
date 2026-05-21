@@ -31,6 +31,7 @@ CREATE TABLE `asupan` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `nama` varchar(255) NOT NULL,
+  `porsi` decimal(8,2) NOT NULL DEFAULT 1.00,
   `kadar_gula` decimal(6,2) NOT NULL,
   `kadar_kalori` decimal(6,2) NOT NULL,
   `tanggal_konsumsi` date NOT NULL,
@@ -44,26 +45,26 @@ CREATE TABLE `asupan` (
 -- Dumping data for table `asupan`
 --
 
-INSERT INTO `asupan` (`id`, `user_id`, `nama`, `kadar_gula`, `kadar_kalori`, `tanggal_konsumsi`, `waktu_konsumsi`, `catatan`, `created_at`, `updated_at`) VALUES
-(1, 4, 'Teh Manis', 15.00, 60.00, '2025-05-01', 'Pagi', 'Minum dengan sarapan', '2025-05-01 03:28:15', '2025-05-01 03:28:15'),
-(2, 4, 'asdfs', 15.00, 60.00, '2025-05-01', 'Pagi', 'Minum dengan sarapan', '2025-05-01 03:56:41', '2025-05-01 03:56:41'),
-(4, 9, 'Teh Manis', 15.00, 60.00, '2025-05-08', 'Pagi', 'Minum dengan sarapan', '2025-05-08 13:08:42', '2025-05-08 13:08:42'),
-(5, 4, 'Teh Manis', 15.00, 60.00, '2025-05-09', 'Pagi', 'Minum dengan sarapan', '2025-05-08 23:00:12', '2025-05-08 23:00:12'),
-(6, 10, 'Nasi Goreng', 100.00, 200.00, '2025-05-09', 'Pagi', 'Minum dengan sarapan', '2025-05-09 00:02:38', '2025-05-09 00:02:38'),
-(7, 4, 'Teh Manis', 15.00, 60.00, '2025-05-12', 'Pagi', 'Minum dengan sarapan', '2025-05-12 04:57:54', '2025-05-12 04:57:54'),
-(8, 10, 'Teh Manis', 15.00, 60.00, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:31:23', '2025-05-18 05:31:23'),
-(9, 10, 'Teh Manis', 15.00, 9999.99, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:32:13', '2025-05-18 05:32:13'),
-(10, 10, 'Teh Manis', 15.00, 9999.99, '2025-05-20', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:35:52', '2025-05-18 05:35:52'),
-(11, 10, 'Teh Manis', 15.00, 60.00, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:48:29', '2025-05-18 05:48:29'),
-(12, 10, 'Teh Manis', 9999.99, 60.00, '2025-05-10', 'Pagi', 'Minum dengan sarapan', '2025-05-18 06:08:07', '2025-05-18 06:08:07'),
-(13, 10, 'Teh Manis', 5.00, 60.00, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 06:08:49', '2025-05-18 06:08:49'),
-(14, 10, 'Teh Manis', 15.00, 60.00, '2025-05-19', 'Pagi', 'Minum dengan sarapan', '2025-05-18 23:56:13', '2025-05-18 23:56:13'),
-(15, 10, 'Teh Manis', 15.00, 9999.99, '2025-05-19', 'Pagi', 'Minum dengan sarapan', '2025-05-19 00:06:44', '2025-05-19 00:06:44'),
-(16, 10, 'Teh Manis', 9999.99, 60.00, '2025-05-19', 'Pagi', 'Minum dengan sarapan', '2025-05-19 00:07:05', '2025-05-19 00:07:05'),
-(17, 4, 'Teh Manis', 15.00, 60.00, '2025-05-23', 'Pagi', 'Minum dengan sarapan', '2025-05-22 23:24:47', '2025-05-22 23:24:47'),
-(19, 9, 'Teh Manis', 15.00, 60.00, '2025-06-04', 'Pagi', 'Minum dengan sarapan', '2025-06-04 14:01:15', '2025-06-04 14:01:15'),
-(20, 9, 'Teh Manis', 5.32, 27.00, '2025-06-05', 'Pagi', 'Minum dengan sarapan', '2025-06-05 10:10:10', '2025-06-05 10:10:10'),
-(21, 9, 'ICE CREAM', 21.50, 200.00, '2025-06-06', 'Pagi', 'Minum dengan sarapan', '2025-06-05 17:04:00', '2025-06-05 17:04:00');
+INSERT INTO `asupan` (`id`, `user_id`, `nama`, `porsi`, `kadar_gula`, `kadar_kalori`, `tanggal_konsumsi`, `waktu_konsumsi`, `catatan`, `created_at`, `updated_at`) VALUES
+(1, 4, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-01', 'Pagi', 'Minum dengan sarapan', '2025-05-01 03:28:15', '2025-05-01 03:28:15'),
+(2, 4, 'asdfs', 1.00, 15.00, 60.00, '2025-05-01', 'Pagi', 'Minum dengan sarapan', '2025-05-01 03:56:41', '2025-05-01 03:56:41'),
+(4, 9, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-08', 'Pagi', 'Minum dengan sarapan', '2025-05-08 13:08:42', '2025-05-08 13:08:42'),
+(5, 4, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-09', 'Pagi', 'Minum dengan sarapan', '2025-05-08 23:00:12', '2025-05-08 23:00:12'),
+(6, 10, 'Nasi Goreng', 1.00, 100.00, 200.00, '2025-05-09', 'Pagi', 'Minum dengan sarapan', '2025-05-09 00:02:38', '2025-05-09 00:02:38'),
+(7, 4, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-12', 'Pagi', 'Minum dengan sarapan', '2025-05-12 04:57:54', '2025-05-12 04:57:54'),
+(8, 10, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:31:23', '2025-05-18 05:31:23'),
+(9, 10, 'Teh Manis', 1.00, 15.00, 9999.99, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:32:13', '2025-05-18 05:32:13'),
+(10, 10, 'Teh Manis', 1.00, 15.00, 9999.99, '2025-05-20', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:35:52', '2025-05-18 05:35:52'),
+(11, 10, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 05:48:29', '2025-05-18 05:48:29'),
+(12, 10, 'Teh Manis', 1.00, 9999.99, 60.00, '2025-05-10', 'Pagi', 'Minum dengan sarapan', '2025-05-18 06:08:07', '2025-05-18 06:08:07'),
+(13, 10, 'Teh Manis', 1.00, 5.00, 60.00, '2025-05-18', 'Pagi', 'Minum dengan sarapan', '2025-05-18 06:08:49', '2025-05-18 06:08:49'),
+(14, 10, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-19', 'Pagi', 'Minum dengan sarapan', '2025-05-18 23:56:13', '2025-05-18 23:56:13'),
+(15, 10, 'Teh Manis', 1.00, 15.00, 9999.99, '2025-05-19', 'Pagi', 'Minum dengan sarapan', '2025-05-19 00:06:44', '2025-05-19 00:06:44'),
+(16, 10, 'Teh Manis', 1.00, 9999.99, 60.00, '2025-05-19', 'Pagi', 'Minum dengan sarapan', '2025-05-19 00:07:05', '2025-05-19 00:07:05'),
+(17, 4, 'Teh Manis', 1.00, 15.00, 60.00, '2025-05-23', 'Pagi', 'Minum dengan sarapan', '2025-05-22 23:24:47', '2025-05-22 23:24:47'),
+(19, 9, 'Teh Manis', 1.00, 15.00, 60.00, '2025-06-04', 'Pagi', 'Minum dengan sarapan', '2025-06-04 14:01:15', '2025-06-04 14:01:15'),
+(20, 9, 'Teh Manis', 1.00, 5.32, 27.00, '2025-06-05', 'Pagi', 'Minum dengan sarapan', '2025-06-05 10:10:10', '2025-06-05 10:10:10'),
+(21, 9, 'ICE CREAM', 1.00, 21.50, 200.00, '2025-06-06', 'Pagi', 'Minum dengan sarapan', '2025-06-05 17:04:00', '2025-06-05 17:04:00');
 
 -- --------------------------------------------------------
 
@@ -222,7 +223,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2025_05_01_055629_create_laporan_table', 3),
 (6, '2025_05_01_141939_create_messages_table', 4),
 (7, '2024_04_30_create_pilihan_sehat_table', 5),
-(8, '2019_12_14_000001_create_personal_access_tokens_table', 6);
+(8, '2019_12_14_000001_create_personal_access_tokens_table', 6),
+(9, '2026_05_21_000001_add_profile_and_asupan_fields', 7);
 
 -- --------------------------------------------------------
 
@@ -390,24 +392,25 @@ CREATE TABLE `users` (
   `nomor_telepon` varchar(15) DEFAULT NULL,
   `pekerjaan` varchar(100) DEFAULT NULL,
   `riwayat_kesehatan` text DEFAULT NULL,
-  `alergi` text DEFAULT NULL
+  `alergi` text DEFAULT NULL,
+  `foto_profil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `google_id`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`, `umur`, `nomor_telepon`, `pekerjaan`, `riwayat_kesehatan`, `alergi`) VALUES
-(1, 'test', 'crystalyt856@gmail.com', NULL, NULL, '$2y$12$wNcrkCaf6sPjayUuPa5kVePHANgKHPELgvX81/um/7knlrBfxzFG2', 'user', 'XUdcrWEqcC', '2025-04-21 20:22:08', '2025-04-21 20:22:08', NULL, NULL, NULL, NULL, NULL),
-(2, 'test', 'scfsdf@gmail.com', NULL, NULL, '$2y$12$sK/Ikjx8l.2ofc9KeJT20O8Ew7aUnpX97uHTZ6XcBzFqdBYtywMdS', 'user', 'DzBve1U5Yh', '2025-04-24 10:06:02', '2025-04-24 10:06:02', NULL, NULL, NULL, NULL, NULL),
-(3, 'test', 'sdfsdf@gmail.com', NULL, NULL, '$2y$10$bIt3dLXd9YJAZ4eayrK4VeQ8TT0pqlbfgUasHK7sDLlw4mH1E5kQO', 'user', 'dhM4iFzPEt', '2025-04-29 14:55:35', '2025-04-29 14:55:35', NULL, NULL, NULL, NULL, NULL),
-(4, 'raysa rafii', 'dewaraysa35@gmail.com', '101360439727054150482', NULL, '$2y$10$8fsHeuJ8RU.eLsdd0LShDecMjakV9zyC4n8MqqLOA9Ff.iXQrt2HS', 'dokter_pencegahan', 'GxWtkDeS6JhrG2JRnLiXSX8fkdKF7SVmqy0bf7LiUakswPmAOjzQja6seiko', '2025-04-29 14:58:50', '2025-05-22 23:24:40', 20, '081334536478', 'Dokter', 'test', 'testd'),
-(6, 'dfdfcv', 'dfgaa@gmail.com', NULL, NULL, '$2y$10$/TPzV5N9QyzDnYsQ12/jSuiuZbEcBuFF/Ppgc7LAor7LZsjZPM0DK', 'user', '6O0Tr9SPFT', '2025-05-01 20:16:04', '2025-05-01 20:16:04', NULL, NULL, NULL, NULL, NULL),
-(9, 'sdgdfgdfg', 'sdfsdf232@gmail.com', NULL, NULL, '$2y$10$4GnDyXgC2MAql19CImtd5OBGX6EzxXSZSqXUpiR9z9AworY52blqm', 'admin', '1QDz3hyK7WRvk85d2azx07SPUpBRFim4liD68gsU9F1SVttA1ebfCZqO2Nf3', '2025-05-08 12:51:40', '2025-05-08 13:09:11', 20, '0813213142342', 'Mahasiswa', '-', '-'),
-(10, 'Sazkia', 'sazkia@gmail.com', NULL, NULL, '$2y$10$WJWjJ2pUkGvZrrY.T8b6MOShp3n.EGtmhOPrGhbQEA4DlJEBdwaoS', 'admin', '9bPTROxQVjyYU13ThIrXiYr1EEJfjQhWmLOa1IyGOZeunaZoJBNuCH9e9ODh', '2025-05-08 23:59:44', '2025-05-18 08:50:35', 19, '081334536478', 'Mahasiswa', '-', '-'),
-(11, 'Luceeal', 'sahidkaswawii26@gmail.com', '106675211844942621617', NULL, NULL, 'user', NULL, '2025-05-15 04:25:17', '2025-05-15 04:25:17', NULL, NULL, NULL, NULL, NULL),
-(12, 'muhammad raysa', 'muhammadraysa74@gmail.com', '108997982119265019484', NULL, NULL, 'admin', NULL, '2025-05-19 00:08:00', '2025-05-19 00:08:00', NULL, NULL, NULL, NULL, NULL),
-(14, 'test', 'guje2341@gmail.com', NULL, NULL, '$2y$10$bXz/6ZYvQl6gS//0gK/eaewZ0zcZJe8udAxDdXEJVASkoJYRk0ibm', 'user', 'kNKbrB3GHxYVCVX7zke1zqr69WJErWu5E6SRulo9KCgWD2AQdA9kiwdBYB5h', '2025-06-05 08:29:51', '2025-06-05 08:29:51', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `google_id`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`, `umur`, `nomor_telepon`, `pekerjaan`, `riwayat_kesehatan`, `alergi`, `foto_profil`) VALUES
+(1, 'test', 'crystalyt856@gmail.com', NULL, NULL, '$2y$12$wNcrkCaf6sPjayUuPa5kVePHANgKHPELgvX81/um/7knlrBfxzFG2', 'user', 'XUdcrWEqcC', '2025-04-21 20:22:08', '2025-04-21 20:22:08', NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 'test', 'scfsdf@gmail.com', NULL, NULL, '$2y$12$sK/Ikjx8l.2ofc9KeJT20O8Ew7aUnpX97uHTZ6XcBzFqdBYtywMdS', 'user', 'DzBve1U5Yh', '2025-04-24 10:06:02', '2025-04-24 10:06:02', NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 'test', 'sdfsdf@gmail.com', NULL, NULL, '$2y$10$bIt3dLXd9YJAZ4eayrK4VeQ8TT0pqlbfgUasHK7sDLlw4mH1E5kQO', 'user', 'dhM4iFzPEt', '2025-04-29 14:55:35', '2025-04-29 14:55:35', NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'raysa rafii', 'dewaraysa35@gmail.com', '101360439727054150482', NULL, '$2y$10$8fsHeuJ8RU.eLsdd0LShDecMjakV9zyC4n8MqqLOA9Ff.iXQrt2HS', 'dokter_pencegahan', 'GxWtkDeS6JhrG2JRnLiXSX8fkdKF7SVmqy0bf7LiUakswPmAOjzQja6seiko', '2025-04-29 14:58:50', '2025-05-22 23:24:40', 20, '081334536478', 'Dokter', 'test', 'testd', NULL),
+(6, 'dfdfcv', 'dfgaa@gmail.com', NULL, NULL, '$2y$10$/TPzV5N9QyzDnYsQ12/jSuiuZbEcBuFF/Ppgc7LAor7LZsjZPM0DK', 'user', '6O0Tr9SPFT', '2025-05-01 20:16:04', '2025-05-01 20:16:04', NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'sdgdfgdfg', 'sdfsdf232@gmail.com', NULL, NULL, '$2y$10$4GnDyXgC2MAql19CImtd5OBGX6EzxXSZSqXUpiR9z9AworY52blqm', 'admin', '1QDz3hyK7WRvk85d2azx07SPUpBRFim4liD68gsU9F1SVttA1ebfCZqO2Nf3', '2025-05-08 12:51:40', '2025-05-08 13:09:11', 20, '0813213142342', 'Mahasiswa', '-', '-', NULL),
+(10, 'Sazkia', 'sazkia@gmail.com', NULL, NULL, '$2y$10$WJWjJ2pUkGvZrrY.T8b6MOShp3n.EGtmhOPrGhbQEA4DlJEBdwaoS', 'admin', '9bPTROxQVjyYU13ThIrXiYr1EEJfjQhWmLOa1IyGOZeunaZoJBNuCH9e9ODh', '2025-05-08 23:59:44', '2025-05-18 08:50:35', 19, '081334536478', 'Mahasiswa', '-', '-', NULL),
+(11, 'Luceeal', 'sahidkaswawii26@gmail.com', '106675211844942621617', NULL, NULL, 'user', NULL, '2025-05-15 04:25:17', '2025-05-15 04:25:17', NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 'muhammad raysa', 'muhammadraysa74@gmail.com', '108997982119265019484', NULL, NULL, 'admin', NULL, '2025-05-19 00:08:00', '2025-05-19 00:08:00', NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 'test', 'guje2341@gmail.com', NULL, NULL, '$2y$10$bXz/6ZYvQl6gS//0gK/eaewZ0zcZJe8udAxDdXEJVASkoJYRk0ibm', 'user', 'kNKbrB3GHxYVCVX7zke1zqr69WJErWu5E6SRulo9KCgWD2AQdA9kiwdBYB5h', '2025-06-05 08:29:51', '2025-06-05 08:29:51', NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables

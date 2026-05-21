@@ -55,6 +55,9 @@ Route::middleware(['auth.token'])->group(function () {
 
     //Pilihan Sehat Admin
     Route::prefix('admin')->middleware(['auth.token', 'admin'])->name('admin.')->group(function () {
+        Route::get('dashboard', function () {
+            return redirect()->route('admin.pilihan-sehat.index');
+        })->name('dashboard');
         Route::get('pilihan-sehat', [PilihanSehatController::class, 'adminIndex'])->name('pilihan-sehat.index');
         Route::get('pilihan-sehat/create', [PilihanSehatController::class, 'create'])->name('pilihan-sehat.create');
         Route::post('pilihan-sehat', [PilihanSehatController::class, 'store'])->name('pilihan-sehat.store');
@@ -71,9 +74,11 @@ Route::middleware(['auth.token'])->group(function () {
     Route::post('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.password.update');
     Route::put('/profil', [ProfilController::class, 'update']); 
     Route::delete('/profil/hapus-akun', [ProfilController::class, 'destroy'])->name('profil.destroy');
-    
+
     // Asupan
     Route::post('/asupan', [AsupanController::class, 'store'])->name('asupan.store'); 
+    Route::put('/asupan/{asupan}', [AsupanController::class, 'update'])->name('asupan.update');
+    Route::delete('/asupan/{asupan}', [AsupanController::class, 'destroy'])->name('asupan.destroy');
 
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'create'])->name('laporan.create');

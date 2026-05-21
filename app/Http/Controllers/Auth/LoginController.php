@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -32,16 +34,32 @@ class LoginController extends Controller
                 'password' => ['required'],
             ]);
 
+            $throttleKey = $this->throttleKey($request, $credentials['email']);
+
+            if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+                $seconds = RateLimiter::availableIn($throttleKey);
+
+                return response()->json([
+                    'success' => false,
+                    'message' => "Terlalu banyak percobaan login. Coba lagi dalam {$seconds} detik.",
+                ], 429);
+            }
+
             $user = User::where('email', $credentials['email'])->first();
 
             if (!$user || !$user->password || !Hash::check($credentials['password'], $user->password)) {
+                RateLimiter::hit($throttleKey, 60);
+
                 return response()->json([
                     'success' => false,
+                    'message' => 'Email atau password salah.',
                     'errors' => [
-                        'email' => ['The provided credentials do not match our records.']
+                        'email' => ['Email atau password salah.']
                     ]
                 ], 422);
             }
+
+            RateLimiter::clear($throttleKey);
 
             /** @var NewAccessToken $token */
             $token = $user->createToken('api-login-token');
@@ -53,6 +71,11 @@ class LoginController extends Controller
                 'errors' => $e->errors(),
             ], 422);
         }
+    }
+
+    protected function throttleKey(Request $request, string $email): string
+    {
+        return Str::lower($email) . '|' . $request->ip();
     }
 
     protected function authenticatedResponse(Request $request, User $user, NewAccessToken $token): JsonResponse

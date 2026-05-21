@@ -11,6 +11,7 @@ class Asupan extends Model
     protected $fillable = [
         'user_id',
         'nama',
+        'porsi',
         'kadar_gula',
         'kadar_kalori',
         'tanggal_konsumsi',

@@ -28,7 +28,16 @@ class ProfilController extends Controller
             'pekerjaan' => 'nullable|string|max:255',
             'riwayat' => 'nullable|string|max:255',
             'alergi' => 'nullable|string|max:255',
+            'foto_profil' => 'nullable|image|max:2048',
         ]);
+
+        $fotoProfil = $user->foto_profil;
+
+        if ($request->hasFile('foto_profil')) {
+            $filename = time() . '_' . $request->file('foto_profil')->getClientOriginalName();
+            $request->file('foto_profil')->move(public_path('images/profile'), $filename);
+            $fotoProfil = 'images/profile/' . $filename;
+        }
 
         $user->update([
             'name' => $request->nama,
@@ -38,6 +47,7 @@ class ProfilController extends Controller
             'pekerjaan' => $request->pekerjaan,
             'riwayat_kesehatan' => $request->riwayat,
             'alergi' => $request->alergi,
+            'foto_profil' => $fotoProfil,
         ]);
 
         return back()->with('success', 'Profil berhasil diperbarui.');
@@ -116,6 +126,7 @@ class ProfilController extends Controller
             'pekerjaan' => $user->pekerjaan,
             'riwayat_kesehatan' => $user->riwayat_kesehatan,
             'alergi' => $user->alergi,
+            'foto_profil' => $user->foto_profil ? asset($user->foto_profil) : null,
             'routes' => [
                 'password_update' => route('profil.password.update'),
                 'delete_account' => route('profil.destroy'),
@@ -135,7 +146,16 @@ class ProfilController extends Controller
             'pekerjaan' => 'nullable|string|max:255',
             'riwayat_kesehatan' => 'nullable|string|max:255',
             'alergi' => 'nullable|string|max:255',
+            'foto_profil' => 'nullable|image|max:2048',
         ]);
+
+        $fotoProfil = $user->foto_profil;
+
+        if ($request->hasFile('foto_profil')) {
+            $filename = time() . '_' . $request->file('foto_profil')->getClientOriginalName();
+            $request->file('foto_profil')->move(public_path('images/profile'), $filename);
+            $fotoProfil = 'images/profile/' . $filename;
+        }
 
         $user->update([
             'name' => $request->name,
@@ -145,6 +165,7 @@ class ProfilController extends Controller
             'pekerjaan' => $request->pekerjaan,
             'riwayat_kesehatan' => $request->riwayat_kesehatan,
             'alergi' => $request->alergi,
+            'foto_profil' => $fotoProfil,
         ]);
 
         return response()->json([
@@ -165,7 +186,14 @@ class ProfilController extends Controller
             'pekerjaan' => 'nullable|string|max:255',
             'riwayat_kesehatan' => 'nullable|string|max:255',
             'alergi' => 'nullable|string|max:255',
+            'foto_profil' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('foto_profil')) {
+            $filename = time() . '_' . $request->file('foto_profil')->getClientOriginalName();
+            $request->file('foto_profil')->move(public_path('images/profile'), $filename);
+            $validated['foto_profil'] = 'images/profile/' . $filename;
+        }
 
         $user->update($validated);
 

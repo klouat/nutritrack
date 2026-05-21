@@ -113,7 +113,10 @@ export default {
                             this.errors.push(data.errors[field]);
                         }
                     }
-                    this.toast.error('Invalid credentials. Please check your email and password.');
+                    this.toast.error(data.message || 'Invalid credentials. Please check your email and password.');
+                } else if (data.success === false && data.message) {
+                    this.errors.push(data.message);
+                    this.toast.error(data.message);
                 } else if (data.success === true && data.token) {
                     window.NutriAuth.setToken(data.token);
                     window.NutriAuth.applyAuthHeader();
