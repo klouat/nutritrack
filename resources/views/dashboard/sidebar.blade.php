@@ -12,6 +12,11 @@
     @vite(['resources/css/app.css', 'resources/js/bootstrap.js'])
 </head>
 <body class="bg-gray-50 font-['Poppins'] overflow-x-hidden">
+    @php
+        $dashboardUser = Auth::user();
+        $dashboardProfilePhoto = $dashboardUser?->foto_profil ? asset($dashboardUser->foto_profil) : null;
+    @endphp
+
     <!-- Mobile Toggle Button -->
     <div class="lg:hidden p-4">
         <button id="sidebar-toggle" class="bg-white p-2 rounded shadow">
@@ -73,7 +78,18 @@
             <img src="{{ asset('images/healthy-food.png') }}" alt="Decoration" class="w-full h-auto px-6 py-4" />
 
             <div class="px-6 py-4">
-                <div class="flex items-center">
+                <div class="flex items-center gap-3">
+                    @if ($dashboardProfilePhoto)
+                        <img
+                            src="{{ $dashboardProfilePhoto }}"
+                            alt="Foto Profil"
+                            class="h-12 w-12 rounded-full object-cover shadow"
+                        />
+                    @else
+                        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-[#003266]">
+                            {{ strtoupper(substr($dashboardUser->name, 0, 1)) }}
+                        </div>
+                    @endif
                     <div>
                         <p class="text-sm font-bold">{{ Auth::user()->name }}</p>
                     </div>

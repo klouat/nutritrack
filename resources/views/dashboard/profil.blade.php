@@ -15,13 +15,58 @@
     </div>
 @endif
 
+@php
+    $user = auth()->user();
+    $profilePhoto = $user->foto_profil ? asset($user->foto_profil) : null;
+@endphp
+
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <!-- Form Bagian Kiri -->
     <div class="md:col-span-2 bg-white rounded-2xl shadow p-6">
         <h2 class="text-xl font-semibold mb-2">Info Personal</h2>
         <p class="text-sm text-gray-500 mb-6">Kamu bisa perbarui data pribadi kamu di sini</p>
 
-        <form action="{{ route('profil') }}" method="POST" class="space-y-4 w-full">
+        <div class="mb-6 flex flex-col gap-4 rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:flex-row sm:items-center">
+            @if ($profilePhoto)
+                <img
+                    id="profile-preview"
+                    src="{{ $profilePhoto }}"
+                    alt="Foto Profil"
+                    class="h-24 w-24 rounded-full border-4 border-white object-cover shadow"
+                />
+            @else
+                <div
+                    id="profile-placeholder"
+                    class="flex h-24 w-24 items-center justify-center rounded-full bg-blue-100 text-2xl font-semibold text-[#003266]"
+                >
+                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                </div>
+                <img
+                    id="profile-preview"
+                    src=""
+                    alt="Foto Profil"
+                    class="hidden h-24 w-24 rounded-full border-4 border-white object-cover shadow"
+                />
+            @endif
+            <div class="flex-1">
+                <label for="foto_profil" class="mb-2 block font-semibold text-[#003266]">Upload Foto Profil</label>
+                <input
+                    id="foto_profil"
+                    type="file"
+                    name="foto_profil"
+                    form="profile-form"
+                    accept="image/*"
+                    onchange="previewProfilePhoto(event)"
+                    class="block w-full rounded-xl border border-blue-200 bg-white px-4 py-2 text-sm file:mr-4 file:rounded-lg file:border-0 file:bg-blue-500 file:px-4 file:py-2 file:text-white hover:file:bg-blue-600"
+                />
+                <p class="mt-2 text-sm text-gray-500">Format JPG, PNG, WEBP. Maksimal 2MB.</p>
+                @error('foto_profil')
+                    <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <form id="profile-form" action="{{ route('profil') }}" method="POST" enctype="multipart/form-data" class="space-y-4 w-full">
             @csrf
             @method('PUT')
 
@@ -124,6 +169,24 @@
 </style>
 
 <script>
+    function previewProfilePhoto(event) {
+        const input = event.target;
+        const preview = document.getElementById('profile-preview');
+        const placeholder = document.getElementById('profile-placeholder');
+        const [file] = input.files || [];
+
+        if (!file) {
+            return;
+        }
+
+        preview.src = URL.createObjectURL(file);
+        preview.classList.remove('hidden');
+
+        if (placeholder) {
+            placeholder.classList.add('hidden');
+        }
+    }
+
     function confirmDeletion() {
         document.getElementById('popup-blur').classList.remove('hidden');
     }

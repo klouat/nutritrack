@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use App\Models\Asupan;
 use App\Models\Message;
 
@@ -34,6 +35,7 @@ class ProfilController extends Controller
         $fotoProfil = $user->foto_profil;
 
         if ($request->hasFile('foto_profil')) {
+            File::ensureDirectoryExists(public_path('images/profile'));
             $filename = time() . '_' . $request->file('foto_profil')->getClientOriginalName();
             $request->file('foto_profil')->move(public_path('images/profile'), $filename);
             $fotoProfil = 'images/profile/' . $filename;
@@ -152,6 +154,7 @@ class ProfilController extends Controller
         $fotoProfil = $user->foto_profil;
 
         if ($request->hasFile('foto_profil')) {
+            File::ensureDirectoryExists(public_path('images/profile'));
             $filename = time() . '_' . $request->file('foto_profil')->getClientOriginalName();
             $request->file('foto_profil')->move(public_path('images/profile'), $filename);
             $fotoProfil = 'images/profile/' . $filename;
@@ -190,6 +193,7 @@ class ProfilController extends Controller
         ]);
 
         if ($request->hasFile('foto_profil')) {
+            File::ensureDirectoryExists(public_path('images/profile'));
             $filename = time() . '_' . $request->file('foto_profil')->getClientOriginalName();
             $request->file('foto_profil')->move(public_path('images/profile'), $filename);
             $validated['foto_profil'] = 'images/profile/' . $filename;
