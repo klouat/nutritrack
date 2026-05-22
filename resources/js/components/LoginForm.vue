@@ -1,7 +1,7 @@
 <template>
     <!-- Root Element -->
     <div class="w-full md:w-3/4 px-8 py-12">
-        <h2 class="text-2xl font-bold text-left mb-6">Login Page</h2>
+        <h2 class="text-2xl font-bold text-left mb-6" data-testid="login-page-title">Login Page</h2>
 
         <form @submit.prevent="login" class="space-y-4">
             <div v-if="errors.length" class="bg-red-500 text-white p-3 rounded-lg">
@@ -12,13 +12,13 @@
 
             <div>
                 <label for="email" class="text-gray-600 text-sm block mb-1">Email</label>
-                <input type="email" id="email" v-model="formData.email" placeholder="Email" 
+                <input type="email" id="email" v-model="formData.email" placeholder="Email" data-testid="login-email"
                     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
 
             <div>
                 <label for="password" class="text-gray-600 text-sm block mb-1">Password</label>
-                <input type="password" id="password" v-model="formData.password" placeholder="Password" 
+                <input type="password" id="password" v-model="formData.password" placeholder="Password" data-testid="login-password"
                     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                 <div class="flex justify-end mt-1">
                     <a href="/forgot-password" class="text-blue-500 text-xs font-medium">Forgot Password?</a>
@@ -26,6 +26,7 @@
             </div>
 
             <button type="submit" 
+                data-testid="login-submit"
                 class="w-full p-3 text-white font-bold rounded-lg bg-gradient-to-r from-[#007AFF] to-[#00D26A] shadow-md hover:opacity-90 transition duration-300"
                 :disabled="loading">
                 <span v-if="loading">Logging in...</span>

@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Cache\RateLimiter as CacheRateLimiter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\NewAccessToken;
@@ -35,9 +36,10 @@ class LoginController extends Controller
             ]);
 
             $throttleKey = $this->throttleKey($request, $credentials['email']);
+            $rateLimiter = $this->loginRateLimiter();
 
-            if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-                $seconds = RateLimiter::availableIn($throttleKey);
+            if ($rateLimiter->tooManyAttempts($throttleKey, 5)) {
+                $seconds = $rateLimiter->availableIn($throttleKey);
 
                 return response()->json([
                     'success' => false,
@@ -48,7 +50,7 @@ class LoginController extends Controller
             $user = User::where('email', $credentials['email'])->first();
 
             if (!$user || !$user->password || !Hash::check($credentials['password'], $user->password)) {
-                RateLimiter::hit($throttleKey, 60);
+                $rateLimiter->hit($throttleKey, 60);
 
                 return response()->json([
                     'success' => false,
@@ -59,7 +61,7 @@ class LoginController extends Controller
                 ], 422);
             }
 
-            RateLimiter::clear($throttleKey);
+            $rateLimiter->clear($throttleKey);
 
             /** @var NewAccessToken $token */
             $token = $user->createToken('api-login-token');
@@ -76,6 +78,13 @@ class LoginController extends Controller
     protected function throttleKey(Request $request, string $email): string
     {
         return Str::lower($email) . '|' . $request->ip();
+    }
+
+    protected function loginRateLimiter(): CacheRateLimiter
+    {
+        // Use a persistent store so failed login attempts survive across requests
+        // even when the app default cache driver is configured as "array".
+        return new CacheRateLimiter(Cache::store('file'));
     }
 
     protected function authenticatedResponse(Request $request, User $user, NewAccessToken $token): JsonResponse

@@ -1,15 +1,18 @@
 <template>
     <div class="container mx-auto px-4">
         <h1 class="text-2xl font-semibold mb-6">Dashboard</h1>
+        <p class="mb-6 text-gray-600" data-testid="dashboard-welcome">
+            Selamat datang! Pantau konsumsi gula dan kalori harianmu di sini.
+        </p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Sugar Intake -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="bg-white p-6 rounded-lg shadow-md" data-testid="dashboard-sugar-card">
                 <h2 class="text-lg font-semibold mb-4">Kadar Gula Harian</h2>
                 <div class="flex justify-center">
                     <div ref="gulaChartRef" class="apex-chart"></div>
                 </div>
                
-                <div class="text-center mt-4">
+                <div class="text-center mt-4" data-testid="dashboard-sugar-total">
                     <p class="text-gray-600 text-sm">
                         Total: {{ dailyData.total_gula }} dari {{ dailyData.max_gula }} gram
                     </p>
@@ -44,10 +47,10 @@
                         <h2 class="text-lg font-semibold">Riwayat Asupan Hari Ini</h2>
                         <p class="text-sm text-gray-500">Catatan konsumsi yang sudah kamu input hari ini.</p>
                     </div>
-                    <span class="text-sm font-medium text-[#007AFF]">{{ todayAsupan.length }} catatan</span>
+                    <span class="text-sm font-medium text-[#007AFF]" data-testid="dashboard-entry-count">{{ todayAsupan.length }} catatan</span>
                 </div>
 
-                <div v-if="todayAsupan.length" class="space-y-3">
+                <div v-if="todayAsupan.length" class="space-y-3" data-testid="dashboard-today-list">
                     <div
                         v-for="item in todayAsupan"
                         :key="item.id"
@@ -90,7 +93,7 @@
                     </div>
                 </div>
 
-                <div v-else class="rounded-lg border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-500">
+                <div v-else class="rounded-lg border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-500" data-testid="dashboard-empty-state">
                     Belum ada catatan asupan untuk hari ini.
                 </div>
             </div>

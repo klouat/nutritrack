@@ -18,6 +18,7 @@
               min="0.01"
               step="0.01"
               v-model="asupan.porsi"
+              data-testid="asupan-porsi"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -27,6 +28,7 @@
             <input 
               type="text" 
               v-model="asupan.nama"
+              data-testid="asupan-nama"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -38,6 +40,7 @@
               min="0"
               step="0.01"
               v-model="asupan.kadar_gula"
+              data-testid="asupan-gula"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -49,6 +52,7 @@
               min="0"
               step="0.01"
               v-model="asupan.kadar_kalori"
+              data-testid="asupan-kalori"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -58,6 +62,7 @@
             <input 
               type="date" 
               v-model="asupan.tanggal_konsumsi"
+              data-testid="asupan-tanggal"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -67,6 +72,7 @@
             <input 
               type="text" 
               v-model="asupan.waktu_konsumsi"
+              data-testid="asupan-waktu"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -76,6 +82,7 @@
             <input 
               type="text" 
               v-model="asupan.catatan"
+              data-testid="asupan-catatan"
               class="sm:col-span-2 border border-blue-400 rounded-xl px-4 py-2 w-full" 
             />
           </div>
@@ -89,6 +96,7 @@
             </a>
             <button 
               type="submit"
+              data-testid="asupan-submit"
               class="px-6 py-2 rounded-xl text-white bg-gradient-to-r from-blue-500 to-green-400 hover:opacity-90 transition w-full sm:w-auto"
               :disabled="isSubmitting"
             >
@@ -128,7 +136,7 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import axios from 'axios';
 
