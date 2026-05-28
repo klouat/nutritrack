@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Cache\RateLimiter as CacheRateLimiter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -122,6 +123,10 @@ class LoginController extends Controller
                 'message' => 'Logout successful.',
             ])->withoutCookie('nutri_token');
         }
+
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect('/login')->withoutCookie('nutri_token');
     }
