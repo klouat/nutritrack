@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,5 +48,22 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function invalid($request, ValidationException $exception)
+    {
+        if ($this->shouldReturnJsonForApi($request)) {
+            return $this->invalidJson($request, $exception);
+        }
+
+        return parent::invalid($request, $exception);
+    }
+
+    protected function shouldReturnJsonForApi(Request $request): bool
+    {
+        return $request->expectsJson()
+            || $request->wantsJson()
+            || $request->ajax()
+            || $request->is('api/*');
     }
 }

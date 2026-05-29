@@ -15,6 +15,7 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::get('/usda-proxy', [UsdaProxyController::class, 'proxyUsdaApi']);
 
 Route::middleware('auth.token')->group(function () {
+    Route::get('asupan', [AsupanController::class, 'index']);
     Route::post('asupan', [AsupanController::class, 'store']);
     Route::put('asupan/{asupan}', [AsupanController::class, 'update']);
     Route::delete('asupan/{asupan}', [AsupanController::class, 'destroy']);

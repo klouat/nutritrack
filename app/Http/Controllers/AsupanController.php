@@ -10,6 +10,22 @@ use Illuminate\Http\JsonResponse;
 
 class AsupanController extends Controller
 {   
+    public function index(Request $request): JsonResponse
+    {
+        $asupan = Asupan::query()
+            ->where('user_id', Auth::id())
+            ->orderByDesc('tanggal_konsumsi')
+            ->orderByDesc('created_at')
+            ->get();
+
+        return response()->json([
+            'message' => $asupan->isEmpty()
+                ? 'Data asupan tidak ditemukan.'
+                : 'Data asupan berhasil diambil.',
+            'asupan' => $asupan,
+        ]);
+    }
+
     public function dashboard(Request $request)
     {
         $user = $request->user();
